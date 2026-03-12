@@ -22,7 +22,7 @@ The robot uses a **skid-steering** drivetrain and integrates:
 
 ---
 
-## 💻 Software Architecture
+## Software Architecture
 
 The system runs **ROS 1** inside a Docker container using the `docker-compose` setup provided in the [VeRLab GitHub repository](https://github.com/verlab).
 
