@@ -87,7 +87,7 @@ The potential fields algorithm guides the robot toward a goal while repelling it
 git clone https://github.com/rafaelos134/Mobile-Robotics-Final-Project.git
 cd Mobile-Robotics-Final-Project
 
-# In the container, build the workspace
+# Build the workspace
 catkin_make
 source devel/setup.bash
 
