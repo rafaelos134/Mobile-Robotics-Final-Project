@@ -1,0 +1,49 @@
+
+<launch>
+    <arg name="laser_port" default="/dev/ttyACM1" />
+    <arg name="laser_id" default="H0906043" />
+
+    <arg name="robot_name" value="laser" />
+    <arg name="robot_position" value="-x 0.0 -y 0.0 -z 0.01 -R 0 -P 0 -Y -1.57" />
+    <arg name="model_file" default="$(find ros_ddsm115_driver)/xacro/urg-04lx.xacro"/>
+
+
+
+    <node name="ros_ddsm115_driver" pkg="ros_ddsm115_driver" type="ros_ddsm115_driver_node" output="screen">
+        <rosparam file="$(find ros_ddsm115_driver)/config/ros_ddsm115_driver_config.yaml" />
+    </node>
+
+    <node name="leitor_teleop_node" pkg="ros_ddsm115_driver" type="leitor_teleop_node" output="screen"></node>
+    <node  name="odometria"    pkg="ros_ddsm115_driver" type="odometria_node" output="screen"></node>
+
+
+    <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
+        <param name="ip_address" value=""/>
+        <param name="serial_port" value="$(arg laser_port)"/>
+        <param name="serial_baud" value="$(arg laser_id)"/>
+        <param name="frame_id" value="laser"/>
+        <param name="calibrate_time" value="true"/>
+        <param name="publish_intensity" value="false"/>
+        <param name="publish_multiecho" value="false"/>
+        <param name="angle_min" value="-1.5707963"/>
+        <param name="angle_max" value="1.5707963"/>
+    </node>
+
+
+
+
+    
+    <param name="robot_description" command="$(find xacro)/xacro '$(arg model_file)'" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="30.0"/>
+    </node>
+  
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map odom" />
+    
+
+
+
+</launch>

@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="campos_potenciais" type="campos.py" name="campos_potenciais_node" output="screen" />
+</launch>
